@@ -48,4 +48,57 @@ def alertlist():
 
     state_status = {"state_status": 0}
 
-    return (render_template('state_status.html', state_status = json.dumps(state_status)))
+    return (render_template('alertlist.html', state_status = json.dumps(state_status)))
+
+@app.route("/api/getconfirmedcontacts/<mrn>")
+def confirmedcontacts(mrn):
+    #To address CT1 in the assignment
+    #TODO: have this call a function in the controller which returns list of patient_mrn 
+    #       that have been in direct contact with the provided {mrn}
+
+    contactlist = {"contactlist": [121345,54321,86754]}
+
+    return (render_template('confirmedcontacts.html', contactlist = json.dumps(contactlist)))
+
+@app.route("/api/getpossiblecontacts/<mrn>")
+def possiblecontacts(mrn):
+    #To address CT2 in the assignment
+    #TODO: have this call a function in the controller which 
+    #       returns list of events with list of patient_mrn that have might have been in direct contact with the provided {mrn}
+
+    possiblecontactlist = {"contactlist": '[001:[121345,5431],002:[54321,56344],003:[86754,12345]]'}
+
+    return (render_template('possiblecontacts.html', possiblecontactlist = json.dumps(possiblecontactlist)))
+
+@app.route("/api/getpatientstatus/<hospital_id>")
+def patientStatusByHospitalId(hospital_id):
+    #To address OF1 in the assignment
+    #TODO: have this call a function in the controller which 
+    #       returns list of events with list of patient_mrn that have might have been in direct contact with the provided {mrn}
+
+    patient_status = {"in-patient_count": 78,
+                        "in-patient_vax": 0.41,
+                        "icu-patient_count": 11,
+                        "icu_patient_vax": 0.18, 
+                        "patient_vent_count": 6,
+                        "patient_vent_vax": 0.17
+                        }
+
+    return (render_template('patientStatusByHospitalId.html', patient_status = json.dumps(patient_status)))
+
+@app.route("/api/getpatientstatus/")
+def patientstatus():
+    #To address OF2 in the assignment
+    #TODO: have this call a function in the controller which returns counts for 
+    # in-patients, icu patients, and patients on ventilators, along with percentage vaccinated
+
+    patient_status = { "in-patient_count": 178,
+                       "in-patient_vax": 0.31,
+                       "icu-patient_count": 78,
+                       "icu_patient_vax": 0.19, 
+                       "patient_vent_count": 25,
+                       "patient_vent_vax": 0.12 }
+    
+    return (render_template('patientstatus.html', patient_status = json.dumps(patient_status)))
+
+    

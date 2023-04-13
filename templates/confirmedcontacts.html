@@ -1,0 +1,10 @@
+<html>
+   <body>
+      <form action = "http://http://127.0.0.1:5000/api/getconfirmedcontacts" method = "post">
+         <p>list of patient_mrn that have been in direct contact with the provided {mrn}</p>
+         <p>{{contactlist}}</p>
+         <p>reset_status is of type (check console):</p>
+         <script>console.log(typeof('{{contactlist}}')) </script> 
+      </form>
+   </body>
+</html>
