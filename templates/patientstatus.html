@@ -1,0 +1,10 @@
+<html>
+   <body>
+      <form action = "http://http://127.0.0.1:5000/api/getpatientstatus/" method = "post">
+         <p>counts for in-patients, icu patients, and patients on ventilators, along with percentage vaccinated.</p>
+         <p>{{patient_status}}</p>
+         <p>reset_status is of type (check console):</p>
+         <script>console.log(typeof('{{patient_status}}')) </script> 
+      </form>
+   </body>
+</html>
