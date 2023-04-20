@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS hospital_data (
 # Set up the OrientDB connection
 orient_client = pyorient.OrientDB("0.0.0.0", 2424)
 user = "root"
-password = "your_password_here"
+password = "root"
 
 # Connect to the OrientDB server
 orient_client.connect(user, password)
@@ -37,25 +37,33 @@ database_name = "ContactTracing"
 if not orient_client.db_exists(database_name, pyorient.STORAGE_TYPE_PLOCAL):
     orient_client.db_create(database_name, pyorient.DB_TYPE_GRAPH, pyorient.STORAGE_TYPE_PLOCAL)
 
-client.db_open(database_name, user, password)
+orient_client.db_open(database_name, user, password)
 
 # Define the classes and properties
 # Patient class
 orient_client.command("CREATE CLASS Patient IF NOT EXISTS EXTENDS V")
-orient_client.command("CREATE PROPERTY Patient.mrn STRING IF NOT EXISTS")
-orient_client.command("CREATE PROPERTY Patient.name STRING IF NOT EXISTS")
-orient_client.command("CREATE PROPERTY Patient.zipcode INTEGER IF NOT EXISTS")
-orient_client.command("CREATE PROPERTY Patient.status STRING IF NOT EXISTS")
-orient_client.command("CREATE INDEX Patient.mrn UNIQUE_HASH_INDEX IF NOT EXISTS")
+orient_client.command("CREATE PROPERTY Patient.mrn IF NOT EXISTS STRING")
+orient_client.command("CREATE PROPERTY Patient.name IF NOT EXISTS STRING")
+orient_client.command("CREATE PROPERTY Patient.zipcode IF NOT EXISTS INTEGER ")
+orient_client.command("CREATE PROPERTY Patient.status IF NOT EXISTS STRING")
+try:
+    orient_client.command("CREATE INDEX Patient.mrn ON Patient (mrn) UNIQUE_HASH_INDEX")
+except pyorient.exceptions.PyOrientIndexException as e:
+    if 'com.orientechnologies.orient.core.index.OIndexException' in str(e):
+        print("Index for Patient.mrn already exists, skipping index creation.")
+    else:
+        raise
 
 # Event class
 orient_client.command("CREATE CLASS Event IF NOT EXISTS EXTENDS V")
-orient_client.command("CREATE PROPERTY Event.event_id STRING IF NOT EXISTS")
-orient_client.command("CREATE INDEX Event.event_id UNIQUE_HASH_INDEX IF NOT EXISTS")
-
-# Attended event edge
-orient_client.command("CREATE CLASS Attended IF NOT EXISTS EXTENDS E")
-orient_client.command("CREATE PROPERTY Attended.date DATE IF NOT EXISTS")
+orient_client.command("CREATE PROPERTY Event.event_id IF NOT EXISTS STRING")
+try:
+    orient_client.command("CREATE INDEX Event.event_id ON Event (event_id) UNIQUE_HASH_INDEX")
+except pyorient.exceptions.PyOrientIndexException as e:
+    if 'com.orientechnologies.orient.core.index.OIndexException' in str(e):
+        print("Index for Event.event_id already exists, skipping index creation.")
+    else:
+        raise
 
 # Close the connection
 orient_client.db_close()
