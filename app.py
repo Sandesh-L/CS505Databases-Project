@@ -1,8 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 import json
 
-from mongo import mongo_connection, close_mongo_connection
-from sqlite import sqlite_connection, close_sqlite_connection
+# from database import mongo_connection, close_mongo_connection
 
 
 app = Flask(__name__)
@@ -20,17 +19,9 @@ def getteam():
     "members": ["912333054", "912270286"],
     "app_status_code": 1,
     }
-    return (render_template('getteam.html',
-                            project_status=jsonify(response)))
-
-# @app.route('/api/getteam', methods=['GET'])
-# def get_team():
-#     response = { "team_name": "Daniel and Sandesh",
-#     "members": ["912333054", "912270286"],
-#     "app_status_code": 1,
-#     }
-#     return (render_template('getteam.html',
-#                             project_status=jsonify(response)), jsonify(response))
+    # return (render_template('getteam.html',
+    #                         project_status=jsonify(response)))
+    return (jsonify(response))
 
 @app.route("/api/reset", methods=['GET','POST'])
 def reset():
@@ -39,7 +30,9 @@ def reset():
     #TODO: change this when resetting is implemented
     isReset = 0
     response = {"reset_status_code":isReset}
-    return(render_template('reset.html',reset_status = jsonify(response)), jsonify(response))
+    # return(render_template('reset.html',reset_status = jsonify(response)), jsonify(response))
+    return (jsonify(response))
+
 
 @app.route("/api/zipalertlist")
 def zipalertlist():
@@ -48,7 +41,10 @@ def zipalertlist():
     
     response = {"ziplist": [40351,40513,40506]}
 
-    return (render_template('zipalertlist.html', ziplist = jsonify(response)), jsonify(response))
+    # return (render_template('zipalertlist.html', ziplist = jsonify(response)), jsonify(response))
+
+    return (jsonify(response))
+
 
 @app.route("/api/alertlist")
 def alertlist():
@@ -58,7 +54,10 @@ def alertlist():
 
     response = {"state_status": 0}
 
-    return (render_template('alertlist.html', state_status = jsonify(response)), jsonify(response))
+    # return (render_template('alertlist.html', state_status = jsonify(response)), jsonify(response))
+
+    return (jsonify(response))
+
 
 @app.route("/api/getconfirmedcontacts/<mrn>")
 def confirmedcontacts(mrn):
@@ -68,7 +67,10 @@ def confirmedcontacts(mrn):
 
     response = {"contactlist": [121345,54321,86754]}
 
-    return (render_template('confirmedcontacts.html', contactlist = jsonify(response)), jsonify(response))
+    # return (render_template('confirmedcontacts.html', contactlist = jsonify(response)), jsonify(response))
+
+    return (jsonify(response))
+
 
 @app.route("/api/getpossiblecontacts/<mrn>")
 def possiblecontacts(mrn):
@@ -78,7 +80,10 @@ def possiblecontacts(mrn):
 
     response = {"contactlist": '[001:[121345,5431],002:[54321,56344],003:[86754,12345]]'}
 
-    return (render_template('possiblecontacts.html', possiblecontactlist = jsonify(response)), jsonify(response))
+    # return (render_template('possiblecontacts.html', possiblecontactlist = jsonify(response)), jsonify(response))
+
+    return (jsonify(response))
+
 
 @app.route("/api/getpatientstatus/<hospital_id>")
 def patientStatusByHospitalId(hospital_id):
@@ -94,7 +99,10 @@ def patientStatusByHospitalId(hospital_id):
                         "patient_vent_vax": 0.17
                         }
 
-    return (render_template('patientStatusByHospitalId.html', patient_status = jsonify(response)), jsonify(response))
+    # return (render_template('patientStatusByHospitalId.html', patient_status = jsonify(response)), jsonify(response))
+
+    return (jsonify(response))
+
 
 @app.route("/api/getpatientstatus/")
 def patientstatus():
@@ -109,8 +117,12 @@ def patientstatus():
                        "patient_vent_count": 25,
                        "patient_vent_vax": 0.12 }
     
-    return (render_template('patientstatus.html', patient_status = jsonify(response)), jsonify(response))
+    # return (render_template('patientstatus.html', patient_status = jsonify(response)), jsonify(response))
+
+    return (jsonify(response))
+
 
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=9999, debug=True)
+
