@@ -34,6 +34,14 @@ def create_contact_edges(patient_contacts):
     except Exception as e:
         print("\n ran into error while trying create_contact_edges: \n", e)
 
+def add_patient(patient_data):
+
+    query = "INSERT INTO Patient SET mrn=:patient_mrn, name=:patient_name, zipcode:=patient_zipcode, status=:patient_status UPSERT RETURN AFTER @this"
+    orient_client.command(query, patient_data) "
+
+
+
+
 # Example usage with a list of patient MRNs
 patient_contacts = ['MRN001', 'MRN002', 'MRN003']
 create_contact_edges(patient_contacts)
